@@ -14,7 +14,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh './gradlew test'
+                sh 'chmod +x ./gradlew && ./gradlew clean test'
             }
         }
     }
