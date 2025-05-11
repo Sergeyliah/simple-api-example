@@ -17,12 +17,6 @@ pipeline {
                 sh 'chmod +x ./gradlew && ./gradlew clean test'
             }
         }
-
-        stage('Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
-            }
-        }
     }
 
     post {
@@ -30,11 +24,8 @@ pipeline {
                 // Generate Allure report
                 sh './gradlew allureReport'
 
-                // Archive Allure HTML report
+                // Archive the HTML report for browser viewing
                 archiveArtifacts artifacts: 'build/reports/allure-report/**', allowEmptyArchive: true
-
-                // Optional: publish in Jenkins if Allure plugin is installed
-                allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
             }
     }
 }
