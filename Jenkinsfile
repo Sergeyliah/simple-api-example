@@ -27,18 +27,14 @@ pipeline {
 
     post {
             always {
-                junit 'build/test-results/test/*.xml'
+                // Generate Allure report
+                sh './gradlew allureReport'
 
-                archiveArtifacts artifacts: 'build/reports/tests/test/**', allowEmptyArchive: true
+                // Archive Allure HTML report
+                archiveArtifacts artifacts: 'build/reports/allure-report/**', allowEmptyArchive: true
 
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'build/reports/tests/test',
-                    reportFiles: 'index.html',
-                    reportName: 'JUnit HTML Report'
-                ])
+                // Optional: publish in Jenkins if Allure plugin is installed
+                allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
             }
     }
 }
