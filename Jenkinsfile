@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Sergeyliah/simple-api-example'
+                checkout scm
             }
         }
 
