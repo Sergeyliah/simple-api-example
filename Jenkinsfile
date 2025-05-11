@@ -20,9 +20,22 @@ pipeline {
     }
 
     post {
-        always {
-            junit 'build/test-results/test/*.xml'
-            archiveArtifacts artifacts: 'build/reports/tests/test/**', fingerprint: true
-        }
+            always {
+                // Archive test result XMLs
+                junit 'build/test-results/test/*.xml'
+
+                // Archive full HTML report
+                archiveArtifacts artifacts: 'build/reports/tests/test/**', allowEmptyArchive: true
+
+                // Publish HTML report (requires HTML Publisher Plugin)
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'build/reports/tests/test',
+                    reportFiles: 'index.html',
+                    reportName: 'JUnit HTML Report'
+                ])
+            }
     }
 }
