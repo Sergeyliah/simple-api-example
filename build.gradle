@@ -5,6 +5,7 @@ plugins {
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
+def allureVersion = "2.25.0"
 
 repositories {
     mavenCentral()
@@ -15,6 +16,8 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'io.qameta.allure:allure-junit5:2.24.0'
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-rest-assured"
 }
 
 test {
@@ -26,7 +29,7 @@ test {
 }
 
 allure {
-    version = '2.24.0'
+    version = '2.25.0'
     autoconfigure = true
     aspectjweaver = true
     //clean = true

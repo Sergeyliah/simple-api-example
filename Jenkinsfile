@@ -28,7 +28,7 @@ pipeline {
     post {
             always {
                 publishHTML(target: [
-                     reportDir: 'build/reports/allure-report',
+                     reportDir: 'build/reports/allure-report/allureReport',
                      reportFiles: 'index.html',
                      reportName: 'Allure HTML Report',
                      keepAll: true,
