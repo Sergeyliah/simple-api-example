@@ -17,17 +17,20 @@ pipeline {
                 sh 'chmod +x ./gradlew && ./gradlew clean test'
             }
         }
+
+        stage('Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
+            }
+        }
     }
 
     post {
             always {
-                // Archive test result XMLs
                 junit 'build/test-results/test/*.xml'
 
-                // Archive full HTML report
                 archiveArtifacts artifacts: 'build/reports/tests/test/**', allowEmptyArchive: true
 
-                // Publish HTML report (requires HTML Publisher Plugin)
                 publishHTML(target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
