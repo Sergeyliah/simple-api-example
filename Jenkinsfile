@@ -17,15 +17,24 @@ pipeline {
                 sh 'chmod +x ./gradlew && ./gradlew clean test'
             }
         }
+
+        stage('Generate Allure Report') {
+            steps {
+                 sh './gradlew allureReport'
+            }
+        }
     }
 
     post {
             always {
-                // Generate Allure report
-                sh './gradlew allureReport'
-
-                // Archive the HTML report for browser viewing
-                archiveArtifacts artifacts: 'build/reports/allure-report/**', allowEmptyArchive: true
+                publishHTML(target: [
+                     reportDir: 'build/reports/allure-report',
+                     reportFiles: 'index.html',
+                     reportName: 'Allure HTML Report',
+                     keepAll: true,
+                     alwaysLinkToLastBuild: true,
+                     allowMissing: true
+                ])
             }
     }
 }
