@@ -20,20 +20,8 @@ pipeline {
 
         stage('Generate Allure Report') {
                     steps {
-                        allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                        allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
                     }
-                }
-    }
-
-    post {
-            always {
-                archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
-            }
-            success {
-                echo 'Build succeeded. Allure report is available.'
-            }
-            failure {
-                echo 'Build failed. Check the test results and logs.'
-            }
         }
+    }
 }
