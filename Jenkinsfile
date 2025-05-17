@@ -19,22 +19,9 @@ pipeline {
         }
 
         stage('Generate Allure Report') {
-            steps {
-                 sh './gradlew allureReport'
-            }
+                    steps {
+                        allure includeProperties: false, jdk: '', results: [[path: 'build/allure-results']]
+                    }
         }
-    }
-
-    post {
-            always {
-                publishHTML(target: [
-                     reportDir: 'build/reports/allure-report/allureReport',
-                     reportFiles: 'index.html',
-                     reportName: 'Allure HTML Report',
-                     keepAll: true,
-                     alwaysLinkToLastBuild: true,
-                     allowMissing: true
-                ])
-            }
     }
 }
