@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.qameta.allure' version '2.11.2'
+    id("io.freefair.lombok") version "8.6"
 }
 
 group = 'org.example'
@@ -13,6 +14,9 @@ repositories {
 
 dependencies {
     implementation 'io.rest-assured:rest-assured:5.3.1'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    testImplementation 'ch.qos.logback:logback-classic:1.4.11'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'io.qameta.allure:allure-junit5:2.24.0'
