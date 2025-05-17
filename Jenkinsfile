@@ -18,11 +18,11 @@ pipeline {
             }
         }
 
-        stage('Generate Allure Report') {
-            steps {
-                 sh './gradlew allureReport'
-            }
-        }
+//         stage('Generate Allure Report') {
+//             steps {
+//                  sh './gradlew allureReport'
+//             }
+//         }
     }
 
     post {
