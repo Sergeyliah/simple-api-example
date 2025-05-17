@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         gradle 'Gradle_8'  // Must be configured in Jenkins > Global Tool Configuration
+        allure 'Allure' // This name must match the one in "Global Tool Configuration"
     }
 
     stages {
@@ -17,25 +18,23 @@ pipeline {
                 sh 'chmod +x ./gradlew && ./gradlew clean test'
             }
         }
+
+        stage('Generate Allure Report') {
+                    steps {
+                        allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                    }
+                }
     }
 
     post {
             always {
-                // Archive test result XMLs
-                junit 'build/test-results/test/*.xml'
-
-                // Archive full HTML report
-                archiveArtifacts artifacts: 'build/reports/tests/test/**', allowEmptyArchive: true
-
-                // Publish HTML report (requires HTML Publisher Plugin)
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'build/reports/tests/test',
-                    reportFiles: 'index.html',
-                    reportName: 'JUnit HTML Report'
-                ])
+                archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
             }
-    }
+            success {
+                echo 'Build succeeded. Allure report is available.'
+            }
+            failure {
+                echo 'Build failed. Check the test results and logs.'
+            }
+        }
 }
