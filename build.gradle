@@ -26,6 +26,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    // Глобально включаем поддержку параллелизма
+    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
+
+    // По умолчанию — последовательный режим
+    systemProperty("junit.jupiter.execution.parallel.mode.default", "same_thread")
+
+    // Но классы, помеченные @Execution(CONCURRENT), будут параллельны
+    systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "same_thread")
+    systemProperty 'junit.jupiter.execution.parallel.mode.dynamic.factor', '1'
     // Optional: to keep allure-results folder clean before test runs
     doFirst {
         delete "build/allure-results"
